@@ -1,0 +1,29 @@
+[*]
+[*] GTKWave Analyzer v3.3.52 (w)1999-2013 BSI
+[*] Wed Dec  3 21:18:29 2014
+[*]
+[dumpfile] "/home/jayant/devel/git_reps/dac/testbench/dac/dump.lxt"
+[dumpfile_mtime] "Wed Dec  3 21:16:16 2014"
+[dumpfile_size] 964
+[savefile] "/home/jayant/devel/git_reps/dac/testbench/dac/dump.gtkw"
+[timestart] 0
+[size] 1366 702
+[pos] -1 -1
+*-8.000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[sst_width] 224
+[signals_width] 118
+[sst_expanded] 1
+[sst_vpaned_height] 179
+@28
+dac.rst[0]
+dac.clk[0]
+@22
+dac.dac_in[7:0]
+@28
+dac.dac_out[0]
+@22
+dac.Dadder[9:0]
+dac.Sadder[9:0]
+dac.Slatch[9:0]
+[pattern_trace] 1
+[pattern_trace] 0

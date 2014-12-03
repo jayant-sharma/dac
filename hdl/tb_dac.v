@@ -27,7 +27,7 @@ module tb_dac;
 
 	reg [7:0] dac_in;
 	reg clk;
-	reg reset;
+	reg rst;
 	reg [7:0] counter;
 
 	wire dac_out;
@@ -35,16 +35,16 @@ module tb_dac;
 	dac uut (
 		.dac_in(dac_in), 
 		.clk(clk), 
-		.reset(reset), 
+		.rst(rst), 
 		.dac_out(dac_out)
 	);
 	defparam uut.RES = 7;
 	
 	initial
 	begin
-		$dumpfile("tb_dac");
-		$dumpvars;
-	//	$display ( "time \tclk \treset \tdac_in \tdac_out ");
+		$dumpfile("dump.lxt");
+		$dumpvars();
+	//	$display ( "time \tclk \trst \tdac_in \tdac_out ");
 		#1981284252
 		$finish;
 	end
@@ -53,12 +53,12 @@ module tb_dac;
 		
 		dac_in <= 8'h01;
 		clk <= 0;
-		reset <= 1;
+		rst <= 1;
 		counter <= 0;
 		#20
-		reset <= 1;
+		rst <= 1;
 		#20
-		reset <= 0;
+		rst <= 0;
 		
 	end
 	

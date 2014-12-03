@@ -50,6 +50,8 @@ always@(posedge clk or posedge rst) begin
 	end
 end
 
+tb uuttb();
+
 endmodule
 
 /*
