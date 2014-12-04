@@ -23,15 +23,20 @@ module dac #(
 )( 
 	input 					clk,
 	input 					rst,
-	input 	  [RES-1:0]	dac_in,
+	input 					conv,
+	input 	  [RES-1:0]			dac_in,
 	output reg 				dac_out
 );
 	
-wire [RES+1:0] Dadder;
 wire [RES+1:0] Sadder;
+wire [RES+1:0] Dadder_i;
+reg  [RES+1:0] Dadder;
 reg  [RES+1:0] Slatch;
 
-assign Dadder = dac_in + {{2{Slatch[RES+1]}}, 8'h00}; 
+tb uuttb();
+
+assign Dadder_i = conv ?  ((Slatch[RES+1] << (RES+1)) | (Slatch[RES+1] << RES) | dac_in) : 0; //iverilog
+//assign Dadder_i = conv ? {{2{Slatch[RES+1]}}, dac_in} : 0; //ise
 assign Sadder = Dadder + Slatch;
 
 initial begin
@@ -41,16 +46,29 @@ end
 
 always@(posedge clk or posedge rst) begin
 	if(rst) begin
-		Slatch <= 0;
-		dac_out <= 1'b0;
+		Dadder <= 0;
 	end
 	else begin
-		Slatch <= Sadder;
-		dac_out <= Slatch[RES+1];
+		Dadder <= Dadder_i;
 	end
 end
 
-tb uuttb();
+always@(posedge clk or posedge rst) begin
+	if(rst) begin
+		Slatch <= 10'h200;
+		dac_out <= 1'b0;
+	end
+	else begin
+		if(conv) begin
+			Slatch <= Sadder;
+			dac_out <= Slatch[RES+1];
+		end
+		else begin
+			Slatch <= 10'h200;
+			dac_out <= 1'b0;
+		end
+	end
+end
 
 endmodule
 

@@ -10,6 +10,8 @@ def rst_dac(dut):
     """This coroutine performs a reset"""
     yield RisingEdge(dut.clk)                  # Synchronise to the read clock
     dut.rst = 1
+    dut.conv = 0
+    dut.dac_in = 0  
     yield RisingEdge(dut.clk)                  # Synchronise to the read clock
     dut.rst = 0
     yield RisingEdge(dut.clk)                  # Synchronise to the read clock
@@ -19,9 +21,10 @@ def conv_dac(dut, value):
     """This coroutine performs a DAC conversion"""
     yield RisingEdge(dut.clk)                  # Synchronise to the read clock
     dut.rst = 0
+    dut.conv = 1
     dut.dac_in = value                        # Drive the values
     yield RisingEdge(dut.clk)                  # Wait 1 clock cycle
-    yield ReadOnly()                           # Wait until all events have executed for this timestep
+#    yield ReadOnly()                           # Wait until all events have executed for this timestep
     raise ReturnValue(int(dut.dac_out.value))  # Read back the value
 
 @cocotb.test()
@@ -36,8 +39,11 @@ def test_dac(dut):
     
     yield rst_dac(dut)
     
+    for cycle in xrange(20):
+        yield RisingEdge(dut.clk)
+        
     dut.log.info("Writing in random values")
-    for i in xrange(50):
+    for i in xrange(20):
         SIG[i] = int(random.getrandbits(resolution))
         analog = yield conv_dac(dut, SIG[i])
         dut.log.info("%d   %d" % (analog, SIG[i]))
