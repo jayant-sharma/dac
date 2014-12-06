@@ -35,12 +35,12 @@ reg  [RES+1:0] Slatch;
 
 tb uuttb();
 
-assign Dadder_i = conv ?  ((Slatch[RES+1] << (RES+1)) | (Slatch[RES+1] << RES) | dac_in) : 0; //iverilog
+assign Dadder_i = conv ?  ((Slatch[9] << 9) | (Slatch[RES+1] << 8) | dac_in) : 0; //iverilog
 //assign Dadder_i = conv ? {{2{Slatch[RES+1]}}, dac_in} : 0; //ise
 assign Sadder = Dadder + Slatch;
 
 initial begin
-	Slatch <= 0;
+	Slatch <= 10'h200;
 	dac_out <= 1'b0;
 end
 

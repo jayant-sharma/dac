@@ -22,7 +22,7 @@ def conv_dac(dut, value):
     yield RisingEdge(dut.clk)                  # Synchronise to the read clock
     dut.rst = 0
     dut.conv = 1
-    dut.dac_in = value                        # Drive the values
+    dut.dac_in = 65 #value                        # Drive the values
     yield RisingEdge(dut.clk)                  # Wait 1 clock cycle
 #    yield ReadOnly()                           # Wait until all events have executed for this timestep
     raise ReturnValue(int(dut.dac_out.value))  # Read back the value
@@ -39,7 +39,7 @@ def test_dac(dut):
     
     yield rst_dac(dut)
     
-    for cycle in xrange(20):
+    for cycle in xrange(4):
         yield RisingEdge(dut.clk)
         
     dut.log.info("Writing in random values")
